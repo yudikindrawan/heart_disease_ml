@@ -18,8 +18,6 @@ MODELS = {
 
 
 def train_model(model_name, config_path):
-    print('config_path: %s' % config_path)
-    print('model_name: %s' % model_name)
     # Load hyperparameters from config file
     with open(config_path, "r") as file:
         config = yaml.safe_load(file)
@@ -37,7 +35,6 @@ def train_model(model_name, config_path):
 
     # Initialize model
     model = MODELS[model_name](**config)
-    print(model)
     # Training model
     model.fit(X_train, y_train)
 

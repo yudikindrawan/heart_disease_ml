@@ -1,0 +1,25 @@
+# Gunakan base image dengan Python dan beberapa paket umum
+FROM continuumio/miniconda3:latest
+
+# Set working directory di dalam container
+WORKDIR /app
+
+# Salin file requirements.txt (jika ada)
+COPY requirements.txt .
+
+# Buat environment Conda dan instal dependensi
+RUN conda create -n venv python=3.12 --yes
+RUN conda activate venv && pip install --no-cache-dir -r requirements.txt
+
+# Salin seluruh project ke dalam container
+COPY . .
+
+# Set variabel lingkungan (opsional)
+ENV PYTHONPATH /app
+ENV CONDA_DEFAULT_ENV venv
+
+# Port yang diekspos (sesuaikan dengan aplikasi Anda)
+EXPOSE 8000
+
+# Perintah untuk menjalankan aplikasi Anda
+CMD ["conda", "run", "-n", "venv", "python", "main.py"]
