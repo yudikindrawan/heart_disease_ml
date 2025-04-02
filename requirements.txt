@@ -1,2 +1,14 @@
 ipykernel
 python-dotenv
+pandas
+numpy
+scikit-learn
+scipy
+joblib
+matplotlib
+seaborn
+scikit-optimize
+flask
+flask-cors
+pyYAML
+jupyter
