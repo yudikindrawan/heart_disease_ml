@@ -7,8 +7,14 @@ WORKDIR /app
 # Salin file requirements.txt (jika ada)
 COPY requirements.txt .
 
-# Buat environment Conda dan instal dependensi
+# Inisialisasi Conda untuk shell (biasanya bash)
+RUN /opt/conda/bin/conda init bash && \
+    echo "conda activate base" >> ~/.bashrc
+
+# Buat environment Conda
 RUN conda create -n venv python=3.12 --yes
+
+# Aktifkan environment Conda dan instal dependensi
 RUN conda activate venv && pip install --no-cache-dir -r requirements.txt
 
 # Salin seluruh project ke dalam container

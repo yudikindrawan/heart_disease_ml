@@ -5,6 +5,21 @@ import joblib
 
 
 def load_and_preprocess_data(input_path, output_path):
+    """
+    The function `load_and_preprocess_data` loads a dataset, preprocesses it by scaling features,
+    encoding target labels if categorical, and splitting it into training, validation, and test sets
+    before saving the preprocessed data to specified output paths.
+    
+    :param input_path: The `input_path` parameter in the `load_and_preprocess_data` function is the file
+    path where the dataset is located. This function reads the dataset from this input path and performs
+    preprocessing steps on the data before splitting it into training, validation, and test sets
+    :param output_path: The `output_path` parameter in the `load_and_preprocess_data` function is the
+    path where the preprocessed data will be saved. It is the directory where the preprocessed training,
+    validation, and test data along with their respective labels will be stored as CSV files
+    :return: The function `load_and_preprocess_data` returns the preprocessed training, validation, and
+    test datasets along with their corresponding target variables. Specifically, it returns `X_train`,
+    `X_val`, `X_test`, `y_train`, `y_val`, and `y_test`.
+    """
     # load dataset
     df = pd.read_csv(input_path)
 
