@@ -1,4 +1,4 @@
-n_neighbors: 5
-weights: 'uniform'
-algorithm: 'auto'
-p: 2
+n_neighbors: [3, 5, 7, 9, 11]
+weights: ['uniform', 'distance']
+algorithm: ['auto', 'ball_tree', 'kd_tree', 'brute']
+p: [1, 2]

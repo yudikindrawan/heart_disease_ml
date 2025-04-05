@@ -25,43 +25,47 @@ def evaluate_models():
         if model_file.endswith(".pkl") and model_file != "scaler.pkl":
             model_path = os.path.join("models", model_file)
             model = joblib.load(model_path)
-            
+
             # Evaluasi pada validation set
             # y_val_pred = model.predict(X_val)
             # val_accuracy = accuracy_score(y_val, y_val_pred)
-            
+
             # results.append({"model": model_file, "accuracy": val_accuracy})
-            
+
             # if val_accuracy > best_accuracy:
             #     best_accuracy = val_accuracy
             #     best_model = model_file
 
             #  Evaluasi pada test set
-            y_test_pred        = model.predict(X_test)
-            val_test_accuracy  = accuracy_score(y_test, y_test_pred)
-            val_test_f1        = f1_score(y_test, y_test_pred)
-            val_test_recall    = recall_score(y_test, y_test_pred)
+            y_test_pred = model.predict(X_test)
+            val_test_accuracy = accuracy_score(y_test, y_test_pred)
+            val_test_f1 = f1_score(y_test, y_test_pred)
+            val_test_recall = recall_score(y_test, y_test_pred)
             val_test_precision = precision_score(y_test, y_test_pred)
-            
-            results.append({"model": model_file,
-                            "val_test_accuracy": val_test_accuracy,
-                            "test_accuracy": val_test_accuracy,
-                            "f1_score": val_test_f1,
-                            "recall_score": val_test_recall,
-                            "precision_score": val_test_precision})
-            
+
+            results.append(
+                {
+                    "model": model_file,
+                    "val_test_accuracy": val_test_accuracy,
+                    "test_accuracy": val_test_accuracy,
+                    "f1_score": val_test_f1,
+                    "recall_score": val_test_recall,
+                    "precision_score": val_test_precision,
+                }
+            )
+
             if (val_test_accuracy + val_test_f1) / 2 > (best_accuracy + best_f1) / 2:
                 best_accuracy = val_test_accuracy
-                best_f1       = val_test_f1
-                best_model    = model_file
-    
-    print('best_accuracy update', best_accuracy)
-    print('best_f1 update', best_f1)
-    
+                best_f1 = val_test_f1
+                best_model = model_file
+
+    print("best_accuracy update", best_accuracy)
+    print("best_f1 update", best_f1)
+
     # Simpan hasil evaluasi
     results_df = pd.DataFrame(results)
     results_df.to_csv("models/evaluation_results.csv", index=False)
-    
+
     print(f"Best Model: {best_model} Accuracy {best_accuracy:.4f}")
     print(f"Best Model: {best_model} F1 Score {best_f1:.4f}")
 

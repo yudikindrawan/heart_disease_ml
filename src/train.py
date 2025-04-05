@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, cross_val_score
 
 from preprocessing import load_and_preprocess_data
 
@@ -54,28 +54,35 @@ def train_model(model_name, config_path):
     # Initialize model
     model = MODELS[model_name](**config)
 
-    #! Need Improvement and refactoring for adding hyperparameter tuning knn, logistic regression, and random forest
-    # TODO: Add hyperparameter tuning for knn and logistic regression
+    #! Need Improvement and refactoring for adding hyperparameter tuning knn, logistic regression, and random forest using GridSearchCV
+    # TODO: Add hyperparameter tuning for knn and logistic regression using GridSearchCV
+    # * Done implement hyperparameter tuning for random forest, knn, logistic regression using GridSearchCV
+
+    #! Need evaluate model and bese model for best score evaluate
+    # TODO: Add RandomSearchCV for hyperparameter tuning and try using cross-val-score for evaluation
+
+    # Get Hyperparameters for GridSeacrhCV
+    param_grid = config.copy()
+    param_grid.pop("random_state", None)
+
     # Check if model for hyperparameter tuning or not
     if model_name == "random_forest":
-        # Get Hyperparameters for GridSeacrhCV
-        param_grid = config.copy()
-        param_grid.pop("random_state", None)
         param_grid["max_depth"] = [
             None if x == "None" else x for x in param_grid.get("max_depth", [])
         ]
 
-        # GrisdSearchCV for hyperparameter tuning
-        if param_grid:
-            print("use grid search")
-            grid_search = GridSearchCV(
-                model, param_grid, cv=5, n_jobs=-1, verbose=1, error_score="raise"
-            )
-            grid_search.fit(X_train, y_train)
+    # GrisdSearchCV for hyperparameter tuning
+    if param_grid:
+        print("use grid search")
+        grid_search = GridSearchCV(
+            model, param_grid, cv=5, n_jobs=-1, verbose=1, error_score="raise"
+        )
+        grid_search.fit(X_train, y_train)
 
-            # Get best model from grid search
-            model = grid_search.best_estimator_
-            print(f"Best parameters for {model_name}: {grid_search.best_params_}")
+        # Get best model from grid search
+        model = grid_search.best_estimator_
+        print(model)
+        print(f"Best parameters for {model_name}: {grid_search.best_params_}")
     # Model without hyperparameter tuning
     else:
         print("fit only")
